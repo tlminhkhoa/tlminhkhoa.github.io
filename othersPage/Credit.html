@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>Home Credit Default Risk</title>
+
+	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+	
+	<!-- Bootstrap -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	<!-- Icon font -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="assets/css/styles.css">
+
+	<!--[if lt IE 9]> <script src="assets/js/html5shiv.js"></script> <![endif]-->
+</head>
+<body>
+
+<header id="header">
+	<div id="head" class="parallax" parallax-speed="1">
+		<h1 id="logo" class="text-center">
+			<img class="img-circle" src="assets/images/credit/reza-1.jpg" alt="">
+			<span class="title">Khoa Tran</span>
+			<span class="tagline">A data lover.</span>
+		</h1>
+	</div>
+
+	<nav class="navbar navbar-default navbar-sticky">
+		<div class="container-fluid">
+			
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+			</div>
+			
+			<div class="navbar-collapse collapse">
+				
+				<ul class="nav navbar-nav">
+					<li><a href="../index.html">Home</a></li>
+					<!-- <li><a href="about.html">About</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="sidebar-left.html">Left Sidebar</a></li>
+							<li><a href="sidebar-right.html">Right Sidebar</a></li>
+							<li><a href="single.html">Blog Post</a></li>
+						</ul> -->
+					</li>
+					<!-- <li class="active"><a href="blog.html">Blog</a></li> -->
+				</ul>
+			
+			</div><!--/.nav-collapse -->			
+		</div>	
+	</nav>
+</header>
+
+<main id="main">
+
+	<div class="container">
+		
+		<div class="row topspace">
+			<div class="col-sm-8 col-sm-offset-2">
+															
+ 				<article class="post">
+					<header class="entry-header">
+ 						<div class="entry-meta"> 
+ 							<!-- <span class="posted-on"><time class="entry-date published" date="2013-06-17">June 17, 2013</time></span>			 -->
+ 						</div> 
+ 						<!-- <h1 class="entry-title"><a href="single.html" rel="bookmark">Credit</a></h1> -->
+						 <p class="entry-title">Home Credit Default Risk</p>
+					</header> 
+					<div class="entry-content"> 
+						<p><img alt="" src="assets/images/credit/bw-5.png"></p>
+						<p><h4>Background</h4></p>
+
+						<p>I have always been fascinated by the concept of feature engineering. The technique of manipulating the input to improve machine learning performance. Especially feature selection methods, the fact we can reduce the number of inputs, decrease noise, and increase performance is just mind-blowing.  </p>
+
+						<p>The concept had been tingling in the back of my mind then, therefore on a Sunday night, I decided to choose a data set and start this project. <br>The following is my attend to dive into and understand more about feature selection, how significant are the results, and how this procedure interacts with different models.</p>
+
+						<p>The structures of the project are:  </p>
+						
+						<p><ol>
+							<li>Data preprocessing </li>
+							<li>Employing 5 models as a baseline using stratified cross-validation </li>
+							<li>Apply 2 different feature selection methods</li>
+							<li>Train on the 2 new sets of feature</li>
+							<li>Using t-test to exam the statistical significance of the results.</li>
+							<li>Test the new models a private test set</li>
+						</ol></p>
+						
+						<p><h4>1. Information and data source </h4></p>
+
+						<p>The following report is an attempt to predict whether a credit borrower going to default or not. As a companion piece to this report, a jupyter notebook is included, which contains python codes that generate all the relevant information. All files are pushed up to GitHub here, which also has the dataset in it. </p>
+
+						<p>The dataset is called Home Credit, from a competition hosted in Kaggle in 2018 with a price of 70,000 dollars. With more than 7,176 Teams,  8,373 Competitors,  131,888 Entries.</p>
+
+						<p>The dataset is complicated with many different tables interconnected using primary and foreign keys. The dataset is complicated with many different tables interconnected using primary and foreign keys. For the interest of this report, only the application_train.csv will be used to train the model. Moreover, the official metric to evaluate the models is using  AUC (Area Under the ROC Curve). Therefore, the same metric will be used. </p>
+						<h4>2. Data description</h4></p>
+						<p>The data frame has 307511 rows and 121 columns. The following are the columns' names, and their meaning can be found on <a href="https://www.kaggle.com/c/home-credit-default-risk/" target="_blank">Kaggle</a>. Here are some basic descriptions of the features. </p>
+
+						
+						<p>Of the 121 columns:</p>
+						<ul>
+							<li>65 are float</li>
+							<li>41 are integer</li>
+							<li>16 are object</li>
+						</ul>
+						<p><img alt="" src="assets/images/credit/data count.PNG"></p>
+						
+						<p>
+							The huge dataset has a significant amount of missing data. Of the 37,208,831 cells in the credit dataset, the missing cells are 9,152,465, which account for about 24% of the total information. However, these nan values distribute unevenly amount the columns. The following is the histogram of the percentage of missing data counted in every column.
+						</p>
+						<p><img alt="" src="assets/images/credit/NanCount.PNG"></p>
+						<p>As we can see, some of the attributes included up to 70% nans.  This can be a problem later on in our process.</p>
+						<p>Another mentionable factor discovered when looking at the set is the ratio of the 2 labels.</p>
+
+						<p><img alt="" src="assets/images/credit/target.PNG"></p>
+
+						<p>The proportion of Repaid and Not Repaid largely favors the Repaid label. This does reflex the real-world cases since most of the credit borrowers have been vet through a process, therefore, they are likely to pay back the amount than a random sample. </p>
+						<p>The minority class consist of only 8.07%, the following problem may occur: </p>
+						<ul>
+							<li>The model only reports on the majority class.</li>
+							<li>The accuracy will a bad metric to measure the performance of the models. </li>
+							<li>Cross-validation may only subset the majority class by chance. </li>
+						</ul>
+						<p><h4>3. Preprocess</h4></p>
+						
+						<p><h5>3.1 Drop Id and train test split</h5></p>
+						<p>Looking into the dataset, it is clear that SK_ID_CURR is an ID for the columns and it should be dropped. </p>
+						<p>First, we need to split the data frame into 2 parts, one for training and one for testing, with a ratio of 70 to 30 before preprocessing to make sure the information from the train set is not leaked into the test set.</p>
+						
+						<p><h5>3.2 Handle categorical data</h5></p>						
+						<p>Let deal with the object type data, since they are clearly categorical data. They are usually 2 main approaches to object type information. One is to encode each unique value into a number, second this encodes the columns into sparse vectors. Since I do not want to implies order to the unique cells, the second method is implemented. Pandas has a handy function for this call get_dummies.</p>
+						
+						<p>A major problem with the dataset is the fact that there no clear distinction between categorical and numeric data. At first glance, the object data is the only categorical columns we have, however, at a closer look, the data contains some attributes that have already been encoded to flag or vector. For example, FLAG_EMAIL is an attribute that has been encoded into zeros and ones. </p>
+						
+						
+						<p>The description of these columns can be found in the HomeCredit_columns_description file. Unfortunately, it doesn’t help either, the descriptions are vague, and do not go to any helpful information. I suspect that the explanation for this problem is privacy, lots of personal information can be inferred if the description is more clear. Therefore, we have to determine a threshold to separate the categorical and numeric data. This may lead to some miss-match treatment of columns, but for now this the best solution.</p>
+						
+						<p><img alt="" src="assets/images/credit/uniqueCount.PNG"></p>
+						
+						<p>It seems to has a sudden jump in the number of unique values from 364 to 707.</p>
+						
+						<p>This can be confirmed when we take a look at the line chart produced from the chart</p>
+
+						<p><img alt="" src="assets/images/credit/uniquechart.PNG"></p>
+
+						<p>Therefore, I decided to choose the threshold of 403 to be the slipt between the 2 data types. This left us with 35 numerical types.</p>
+
+						<p><h5>3.3 Handle outlier</h5></p>	
+
+						<p>Dealing with outlier is also important to any model, this helps reduces noises from the set and converts the attribute into the expected distribution.We can identify the outliers by using the Three-Sigma Limits, the instances are laid outside of this range from the mean.</p>
+
+						
+						<p>Working with an imbalance label like this, dropping all of the outliers is not a reasonable approach here. We may accidentally make the data more under-represented than it ready is. An alternative implemented in this report this to let the 2 tail 3 sigmas be the maximum range from the mean and set the outliers into that range.</p>
+						
+						<p>A simple pseudo-code:</p>
+
+						<p><img alt="" src="assets/images/credit/outlier.PNG"></p>
+
+						<p><h5>3.4 Handle missing data</h5></p>	
+						<p>Next is to deal with missing values, the process of getting the sparse vectors already remove nan from the object datatype.</p>
+
+						<p>The dataset is populated with abundant nans in various columns, many of these attributes contain more than 50% of these missing values. Simply dropping them may work, but it will significantly reduce, in fact only 2% of the rows remained after dropping all nans. I decided to impute the missing data with its column mean, with the awareness of the action may lead to some inconsistent within the encoded number columns, like flag type.</p>
+
+						<p> A more senses able method is to drop the significant nan columns and then using more powerful algorithms like KNN impute to replace missing data. However, since this is the first cycle of the project, I would like to assume these mostly nan attributes contain some critical information for the prediction. Besides, impute with mean computationally least expensive than KNN.</p>
+
+						<p><h5>3.5 Normalizing  data</h5></p>
+
+						<p>Normalizing the data is also important to the models, the process assists the model to easier convert and extract information. They may look act badly if the individual features do not lay within the same range.</p>
+
+						<p>There are many different ways to normalize, a standard way is to the mean and standard deviation of the feature to scale it.</p>
+
+						<p><b>Finally, we can apply all the above steps into the testing set with the same imputer, mean, standard deviation.</b></p>
+
+
+						<p><h4>4. Building models</h4></p>
+
+						<p>A custom function is made to apply stratified cross-validation of 10 fold and plot the ROC graph.</p>
+
+						<p><h5>4.1 Default models</h5></p>
+
+						<p>The following section is training different models using the current dataset.</p>
+
+						<p><h5>4.1.1 Logistic Regression (Log)</h5></p>
+
+						<p>The logistic regression below is using the default parameters that have been set in the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank">sklearn’s LogisticRegression library</a></p>
+
+						<p>Except for the following parameters:</p>
+						<ul>
+							<li>random_state = 0</li>
+							<li>n_jobs = -1</li>
+						</ul>
+
+						<p>The result of the cross-validation is the following: </p>
+
+						<p><img alt="" src="assets/images/credit/LogDefault.PNG"></p>
+						<p><img alt="" src="assets/images/credit/LogGraph.PNG"></p>
+
+						<p>The logistic regression performs relatively well with not much fluctuation between each fold, this indicates that the model is not overfitting the dataset. Although the classifier has been limited to 100 iterations, the process of cross-validation took relatively long to finish.</p>
+						
+						<p><h5>4.1.2 Random Forest (RR)</h5></p>
+
+						<p>The random forest  below is using the default parameters that have been set in the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank">sklearn’s Random Forest</a></p>
+
+						<p>Except for the following parameters:</p>
+						<ul>
+							<li>random_state = 0</li>
+							<li>n_jobs = -1</li>
+							<li>max_depth = 5</li>
+						</ul>
+
+						<p>The result of the cross-validation is the following: </p>
+						<p><img alt="" src="assets/images/credit/RRDefault.PNG"></p>
+						<p><img alt="" src="assets/images/credit/RRGraph.PNG"></p>
+
+						<p>Random forest performance seems relatively worse than logistic regression. Like the logistic regression model still took a considerable amount to run. </p>
+
+						<p><h5>4.1.2 Multilayer Perceptron (NN)</h5></p>
+
+						<p>The Multilayer Perceptron below is using the default parameters that have been set in the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html" target="_blank">sklearn’s Multilayer Perceptron</a></p>
+
+						<p>Except for the following parameters:</p>
+						<ul>
+							<li>random_state = 0</li>
+							<li>early_stopping = True</li>
+							<li>max_iter = 500</li>
+						</ul>
+
+						<p>The result of the cross-validation is the following: </p>
+
+						<p><img alt="" src="assets/images/credit/NNDefault.PNG"></p>
+						<p><img alt="" src="assets/images/credit/NNGraph.PNG"></p>
+
+						<p>The multilayer perceptron is also a bit worse than Logistic Regression.</p>
+
+						<p><h5>4.1.3 Naïve Bayes (GNB)</h5></p>
+
+						<p>The Naïve Bayes below is using the default parameters that have been set in the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html" target="_blank">sklearn’s Naïve Bayes</a></p>
+
+						<p>The result of the cross-validation is the following: </p>
+
+						<p><img alt="" src="assets/images/credit/GNBDefault.PNG"></p>
+						<p><img alt="" src="assets/images/credit/GNBGraph.PNG"></p>
+
+						<p>The Naïve Bayes gives the worst values. The algorithm learns nothing, and almost guess random at times. However, it ran relatively fast.</p>
+
+						<p><h5>4.1.4 Decision Tree (DT)</h5></p>
+
+						<p>The Decision Tree below is using the default parameters that have been set in the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html" target="_blank">sklearn’s Decision Tree</a></p>
+
+						<p>Except for the following parameters:</p>
+
+						<ul>
+							<lil>random_state = 0</lil>
+						</ul>
+
+						<p>The result of the cross-validation is the following: </p>
+
+						<p><img alt="" src="assets/images/credit/DTDefault.PNG"></p>
+						<p><img alt="" src="assets/images/credit/DTGraph.PNG"></p>
+
+						<p>Decision Tree performs more are less same as the Naive Bayes with just a little bit better.</p>
+
+						<p><h5>4.1.5 Comparison </h5></p>
+
+						<p>The following table contains all of the AUC scores of the 5 models. </p>
+
+						<p><img alt="" src="assets/images/credit/Compare.PNG"></p>
+						<p><img alt="" src="assets/images/credit/CompareNumber.PNG"></p>
+
+						<p>Comparing the mean and standard deviation, it looks to be that Logistic Regression is the best model for this dataset. With a mean of 0.744826, it is completed better than the runner-up, Random Forest, more than 2%. However, we do need to check if this lead has any statistical significance with an alpha of 0.05. </p>
+
+						<p>The p-value when applying a related t-test into the 2 sets of cross-validation scores is <b>3.349861064882038e-09</b>. This is less than the set alpha, which confirms that Logistic Regression statistically the best model.</p>
+						
+						<p><h5>4.2 Feature Selection using correlation </h5></p>
+
+						<p>The following the employing correlation table to filter the most linearly related attributes to the target. After applying the correlation algorithm, the top 3 most important features interestingly are EXT_SOURCE_2, EXT_SOURCE_3, EXT_SOURCE_1. </p>
+
+						<p>There is no information about these 3 values, looking into the description, only a brief can be found “Normalized score from external data source”. Again maybe this is done for security pursuits.</p>
+
+						<p>Using the top 50 features to train the models, with the same parameters, to raise a below result.</p>
+
+						<p><img alt="" src="assets/images/credit/Corr.PNG"></p>
+
+						<p>Using the top 50 features to train the models, with the same parameters, to raise a below result.</p>
+
+						<p><img alt="" src="assets/images/credit/SelectionNumber.PNG"></p>
+						<p><img alt="" src="assets/images/credit/CorrCompare.PNG"></p>
+
+						<p><b>From the table above, 4 of the 5 models are statistically significant, except the decision tree.</b></p>
+
+						<p>The best model, Logistic Regression performed a little bit worse than before, dropped about 0.04 in AUC, this may be the reduction of information.</p>
+
+						<p>However, the other 3, RR, GNB, NN, achieve a better AUC thanks to the decrease in noise. Especially the Naïve Bayes model, which increased more than 15% in AUC. Another advantage of selected data is that it reduces the training time tremendously.</p>
+					
+						<p><h5>4.3 Feature Selection using Random Forest </h5></p>
+
+						<p>The random forest model has an ensemble feature selection method that can be used to understand how the model chooses its attribute. It is based on the Gini impurity; the model finds the features that best minimize this number. </p>
+					
+						<p><img alt="" src="assets/images/credit/FeatureRR.PNG"></p>
+
+						<p>When we look that the top columns that random forest point out, again, EXT_SOURCE_2, EXT_SOURCE_3, EXT_SOURCE_1 appear to be the top 3 most important.</p>
+					
+						<p>Using the top 20 features from the Random Forest to train the models, with the same parameters, to raise the below result.</p>
+
+						<p><img alt="" src="assets/images/credit/RRNumber.PNG"></p>
+						<p><img alt="" src="assets/images/credit/RRCompare.PNG"></p>
+
+						<p>Again, all of the results are statistically significant, except the decision tree. Most of the models, RR, GNB, improved. The best scheme, Log, has its performance decreased about 1%.</p>
+					
+						<p><h5>4.4 Conclusion</h5></p>
+
+						<p>Of the 5 chosen machine learning algorithms, the Logistic Regression has consistently come out ahead, with a score of 0.74 when used in the original data.</p>
+
+						<p>Multiplayer perceptron and Random Forest, are the runner-ups, although their AUC is not as high as Log, the training time for these two models is about half the mentioned scheme. </p>
+
+						<p>Navies Bayes is interesting that, at first, it only performs a bit better than a random selector. This is may due to a large number of features and noises within the original set. </p>
+
+						<p>Finally, the decision tree presented unsustainable with or without feature selection. I believe that the scheme is no suitable for the problem or the default hyper-parameters are not appropriate and need to be changed.</p>
+
+						<p>Feature selection, using correlation or ensemble random forest, both help the reduction of training time. By decreasing noises, the method not only helps increase 1 or 2 % in the RR and NN model but up to 18% for NB. My hypothesis is that Log, RR, NN by their implementation do have a way to deal with noise, via L2 regulation in Log and NN, or bootstrap in RR. In contrast, NB accounted for every feature that it has been presented, therefore, feature selection has a noteworthy effect on it.</p>
+
+						<p>5. Testing on the test set</p>
+
+						<p><img alt="" src="assets/images/credit/Test.PNG"></p>
+					</div> 
+				</article><!-- #post-## -->
+
+			</div> 
+		</div> <!-- /row post  -->
+
+		<!-- <div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<div id="comments">	
+					<h3 class="comments-title">3 Comments</h3>
+					<a href="#comment-form" class="leave-comment">Leave a Comment</a>
+					
+					<ol class="comments-list">
+						<li class="comment">
+							<div>
+								<img src="assets/images/avatar_man.png" alt="Avatar" class="avatar">
+												
+								<div class="comment-meta">
+									<span class="author"><a href="#">John Doe</a></span>
+									<span class="date"><a href="#">January 22, 2011 at 4:55 pm</a></span>
+									<span class="reply"><a href="#">Reply</a></span>
+								</div>
+
+								<div class="comment-body">
+									Morbi velit eros, sagittis in facilisis non.
+								</div>
+							</div>
+
+							<ul class="children">
+								<li class="comment">
+									<div>
+										<img src="assets/images/avatar_man.png" alt="Avatar" class="avatar">
+																
+										<div class="comment-meta">
+											<span class="author"><a href="#">John Doe</a></span>
+											<span class="date"><a href="#">January 22, 2011 at 4:55 pm</a></span>
+											<span class="reply"><a href="#">Reply</a></span>
+										</div>
+
+										<div class="comment-body">
+											Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus.
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+
+						<li class="comment">
+							<div>
+								<img src="assets/images/avatar_woman.png" alt="Avatar" class="avatar">
+								
+								<div class="comment-meta">
+									<span class="author"><a href="#">Jonnes</a></span>
+									<span class="date"><a href="#">January 22, 2011 at 4:55 pm</a></span>
+									<span class="reply"><a href="#">Reply</a></span>
+								</div>
+
+								<div class="comment-body">
+									Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus.												</div><!-- .comment-body -->
+							<!-- </div>
+						</li>
+					</ol>
+					
+					<div class="clearfix"></div>
+
+					<nav id="comment-nav-below" class="comment-navigation clearfix" role="navigation"><div class="nav-content">
+							<div class="nav-previous">&larr; Older Comments</div>
+							<div class="nav-next">Newer Comments &rarr;</div>
+					</div></nav>
+
+
+					<div id="respond">
+						<h3 id="reply-title">Leave a Reply</h3>
+						<form action="" method="post" id="commentform" class="">
+							<div class="form-group">
+								<label for="inputName">Name</label>
+								<input type="text" class="form-control" id="inputName" placeholder="Enter your name">
+							</div>
+							<div class="form-group">
+								<label for="inputEmail">Email address <i class="text-danger">*</i></label>
+								<input type="email" class="form-control" id="inputEmail" placeholder="Enter your email">
+							</div>
+							<div class="form-group">
+								<label for="inputWeb">Website</label>
+								<input type="nane" class="form-control" id="inputWeb" placeholder="http://">
+							</div>
+							<div class="form-group">
+								<label for="inputComment">Comment</label>
+								<textarea class="form-control" rows="6"></textarea>
+							</div>
+							<div class="row">
+								<div class="col-md-8">
+									<div class="checkbox">
+										<label> <input type="checkbox"> Subscribe to updates</label>
+									</div>
+								</div>
+								<div class="col-md-4 text-right">
+  									<button type="submit" class="btn btn-action">Submit</button>
+								</div>
+						</form>
+					</div> 
+				</div>
+			</div>
+		</div>   -->
+		<div class="clearfix"></div>
+
+	</div>	
+
+</main>
+
+<footer id="footer" class="topspace">
+
+			<div class="col-md-3 widget">
+				<!-- <h3 class="widget-title">Text widget</h3>
+				<div class="widget-body">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, nihil natus explicabo ipsum quia iste aliquid repellat eveniet velit ipsa sunt libero sed aperiam id soluta officia asperiores adipisci maxime!</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, nihil natus explicabo ipsum quia iste aliquid repellat eveniet velit ipsa sunt libero sed aperiam id soluta officia asperiores adipisci maxime!</p>
+				</div> -->
+			</div> 
+
+			<div class="col-md-3 widget">
+				<!-- <h3 class="widget-title">Form widget</h3>
+				<div class="widget-body">
+					<p>+234 23 9873237<br>
+						<a href="mailto:#">some.email@somewhere.com</a><br>
+						<br>
+						234 Hidden Pond Road, Ashland City, TN 37015
+					</p>	
+				</div> -->
+			</div> 
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 widget">
+				<h3 class="widget-title">Contact</h3>
+				<div class="widget-body">
+					<p>+84 907183848<br>
+						<a href="mailto:#">khoasimon99@gmail.com</a><br>
+						<br>
+						Toronto, Ontario, Canada.
+					</p>	
+				</div>
+			</div>
+
+			<div class="col-md-3 widget">
+				<h3 class="widget-title">Follow me</h3>
+				<div class="widget-body">
+					<p class="follow-me-icons">
+						<a href=""><i class="fa fa-twitter fa-2"></i></a>
+						<a href=""><i class="fa fa-dribbble fa-2"></i></a>
+						<a href=""><i class="fa fa-github fa-2"></i></a>
+						<a href=""><i class="fa fa-facebook fa-2"></i></a>
+					</p>
+				</div>
+			</div>
+
+
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p>Toronto, Ontario, Canada.</p>
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						Khoa Tran<br> 
+					</p>
+				</div>
+			</div>
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
+
+
+
+<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="assets/js/template.js"></script>
+</body>
+</html>
