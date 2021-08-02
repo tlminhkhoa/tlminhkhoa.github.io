@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>Baseline Shift Dectection with Intel</title>
+
+	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+	
+	<!-- Bootstrap -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	<!-- Icon font -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="css/styles2.css">
+
+	<!--[if lt IE 9]> <script src="assets/js/html5shiv.js"></script> <![endif]-->
+</head>
+<body>
+
+<header id="header">
+	<div id="head" class="parallax" parallax-speed="1">
+		<h1 id="logo" class="text-center">
+			<span class="title">Khoa Tran</span>
+			<span class="tagline">A data lover<br>
+				<a href="">khoasimonm99@gmail.com</a></span>
+		</h1>
+	</div>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+			</div>
+			
+			<div class="navbar-collapse collapse">
+				
+				<ul class="nav navbar-nav">
+					<li><a href="../index.html" target="_blank">Home</a></li>
+					<!-- <li class="active"><a href="about.html">About</a></li> -->
+					<!-- <li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="sidebar-left.html">Left Sidebar</a></li>
+							<li><a href="sidebar-right.html">Right Sidebar</a></li>
+							<li><a href="single.html">Blog Post</a></li>
+						</ul>
+					</li> -->
+					<!-- <li><a href="blog.html">Blog</a></li> -->
+				</ul>
+			
+			</div><!--/.nav-collapse -->			
+		</div>	
+	</nav>
+</header>
+
+<main id="main">
+
+	<div class="container">
+
+		<div class="row topspace">
+			
+			<!-- Article main content -->
+			<article class="col-sm-8 maincontent">
+				<header class="page-header">
+					<h1 class="page-title">Baseline Shift Dectection with Intel</h1>
+				</header>
+
+				<p><img src="assets/images/s2.jpg" alt=""></p>
+				
+				<p>A little back story behind the project. The internship at Intel was my first real job ever. I have been in love with machine learning for a long time then, however, applying my knowledge at one of the biggest chip manufacturing cooperation in the world is a hold new experience. </p>
+				
+				<p>After 3 interview rounds, I got into Intel with great excitement. Working with the testing team, after a few months, I was lucky enough to be appointed to lead the machine learning aspect of the project. </p>
+
+				<p>My job is to research, implement and help understand the output of the model. Data preprocessing and transformation is also an essential part of the problem.</p>
+
+				<p>The following is my recommendation letter after the project <b><a href="https://tlminhkhoa.github.io/Recommendation%20letter/Intel%20Recommnedation%20Letter.pdf" target="_blank">here</a></b></p>
+
+				<p><b>Due to the confidential nature of the project, the majority of details are not disclosable. I can only brief about the scope and some problems encountered along the way.</b></p>
+				
+				
+
+
+				<p>&emsp; </p>
+
+				
+				<h3>Problem statement</h3>
+				<p>To manufacture a chip for any device, hundreds up to thousands of machinery must be involved. And due to the nature of chip making, these machines can be located across the world, usually, a processor can travel up to 4 to 5 countries to finally end up on the user’s hand. </p>
+				<strong>Un-noted failure in any of these constantly working machines can be devastating. There is a need for a system that can early detect failures in real-time, and apply root cause detection to reduce debugging time.</strong>
+			
+				<p>&emsp; </p>
+				
+				<h3>Solution outline</h3>
+				
+				<p>After much consideration, we landed on the following solution: </p>
+				
+
+				<ol>
+					<li>EWMA for real-time anomaly detection</li>
+					<li>Machine learning ( Decision Tree ) for applying commonality analysis</li>
+					<li>Web hosting</li>
+				</ol>
+				<p>&emsp; </p>
+				<img src="./assets/images/process.PNG" alt="process">
+				<p>&emsp; </p>
+				  <p>The solution seems relatively simple, however, the devil is in the detail. We have to consider multiple factors within the huge Intel environment. Select the combination of solutions that fit the system the best and build a pipeline that is easy to maintain and use are essential.</p>
+				
+				  <p>At the manufacturing line, processors are handle in batches, therefore hundreds of chips go through the same operations and machinery. Therefore to perform commonality analysis,</p>
+				  <ol>
+					<li>We can use an algorithm to detect defective processors</li>
+					<li>Combines with the normal processors within the same batch, </li>
+					<li>Use machine learning to fit the dataset</li>
+					<li>Perform commonality analysis on the model</li>
+				</ol>
+				  
+				<!-- <img src="./assets/images/process2.PNG" alt="process2"> -->
+				<h4>1. EWMA</h4>
+
+				<p>EWMA ( Exponentially Weighted Moving Average ) is a tool for monitoring small to moderate variations in the quality characteristics in production lines of manufacturing industries</p>
+				
+				<p><img src="./assets/images/EWMA.png" alt="EWMA"></p>
+				
+				<!-- <p>The </p> -->
+
+				<p>At first, many solutions are considered for the project. Anomaly detection algorithms like Isolation Forest were first promoted by myself and others. However, the test engineering team was not comfortable using a system that they are not familiar with. Therefore, we decided to use EWMA, since they are more common within Intel’s environment to detect the anomaly.</p>
+				<p>...</p>
+
+				<h4>2. Machine learning</h4>
+
+				<p>Most of my work is laid within this section and can be divided into 5 phases, each has its own challenges:</p>
+
+				<ol>
+					<li>Adapt to use Intel’s system and database</li>
+					<li>Exploratory data analysis </li>
+					<li>Model selection</li>
+					<li>Solution to problems and hyperparamter tunning</li>
+					<li>Build pipeline for web hosting</li>
+				</ol>
+
+				<h5>2.1 Adapt to use Intel’s system and database</h5>
+
+				<p>Intel is a multinational company with a complicated system. Study the company’s environment is essential for not only understanding the data source but also helpful later on when integrating the project into the massive system.</p>
+			
+				<p>Another challenge within this section is the fact that we were working with big data. A full dataset usually goes up to the thousands in the number of features and hundreds of thousand rows. A query can take up to hours and contain gigabytes of data.<i> Therefore, we were forced to be strategic on how we query data for exploratory analysis and model testing.</i></p>
+			
+				<h5>2.2 Exploratory data analysis</h5>
+
+				<p>The exploratory analysis process assisted us in gaining more insight into the dataset, the followings are some interesting analyses related to the project.</p>
+				<p>The most important figure of the dataset that needed to be known is that <i> proportion of defects and non-defects is significantly imbalanced.</i></p>
+				<img src="./assets/images/imbalanced.PNG" alt="imbalanced">
+				<p>This is due to the nature of the problem, at a well-tuned manufacturing line defects are rare, within a given batch, the failure rate is about 1 in 1,000 ( 0.1 %)</p>
+				<p>An unexpected problem that we also encounter was that some entities have not being updated daily, the frequency that we wanted to run the system on. Also, the data of some entities were missing altogether. To get this fix, we have to work with the data engineer team from the regional department.</p>
+				<h5>2.3 Model selection</h5>
+				<p>There is a wide range of models that were proposed, we landed down mostly around tree-related machine learning methods. We plan to train them, then extract the most significant indicators from the thousands of features.</p>
+				
+				<ul>
+					<li>Random Forest</li>
+					<li>Gradient Boosting Machine</li>
+					<li>Decision Tree</li>
+					<li>Chi-square Test</li>
+				  </ul>
+				<img src="./assets/images/ImportantFeature.png" alt="ImportantFeature">
+				
+				<h5>2.3.1 Reasons why Decision Tree:</h5>
+				<p>We are mostly lean toward the more complex and powerful model, like Random Forest or Gradient Boosting Machine. However, again after talking to other engineers, interestingly a decision was made to choose Decision Tree to be our final model. </p>
+				
+				<p>An important lesson can be learned here.<b> The decision tree won this selection simply due to its interpretability, ease to understand.</b> Talking with engineers, a fact immersed that most engineers do not feel comfortable working with something they can not understand.  Random forest or GBM is more or less a black box almost impossible to understand from an electrical professional respective, which are the end-users. Building a system to suggest root-cause, trusts needed to be established.</p>
+				<h5>2.3.2 Pros of Decision Tree:</h5>
+				<p>There are multiple reasons that the decision tree “fit” this problem:</p>
+				<ul>
+					<li><b>Easy to interpret</b>, visualize a tree is extremely helpful for the user to understand how and why the model makes a decision. Looking at why a tree is slipt from the familial entity, what they work with every day, builds confidence in the final result.</li>
+					<li><b>Minimal preprocessing and no normalization</b>. By keeping data's original form and range, decision trees provided a way for users to dive into the raw dataset and example them without much confusion.</li>
+					<li><b>Handle missing data</b>. As mention before,  we still having some problems with missing due to the nature of the system, having a model that can work with missing data is a big advantage.</li>
+				</ul>
+
+				<h5>2.3.3 Cons of Decision Tree:</h5>
+
+				<ul>
+					<li>The model is notorious for its <b>high risk of overfitting</b>, stories of decision trees work very well academically then struggle in the real world due to noise are common. </li>
+					<li><b>Imbalance bias</b> is the biggest problem. Interestingly, we observed the same issue in the EDA step. Our data are heavily imbalanced, contain largely normal units, and defective are rare. </li>
+				</ul>
+
+				<h5>2.4 Solution to problems and hyperparamter tunning </h5>
+
+				<ul>
+					<li>To solve the route block of <b>imbalance bias</b>, we landed on the solution call <b>oversample</b>. Oversampling is a technique of randomly sample the minority class to make to ratio balance again. </li>
+					<img src="./assets/images/OverSampling.PNG" alt="OverSampling">
+					<p>However, the oversampling technique has its drawbacks (no free lunch), since we are reusing the minority class, the presence of duplicate records can cause overfitting.</p>
+					<li><b>Overfitting</b> is a major problem that we had been having until then. Not only from the nature of the model but also the oversampling technique that was employed.  Hyperparameter tuning is an obvious answer, however, because different products go through different operations, and every operation generates a different dataset. This spark variation in features for individual products. Therefore, there are no prefix hyperparameters that we can set for every use case.</li>
+					<p>Our solution for this problem is to <b>tune some hyperparameters that work well in most case and train the end-user to adjust other as they go.</b>Grid search and random search were considered, however, these two options were too time-consuming, especially with big data. We do aware that the answer is not perfect, but it is the only way we can account for all use cases. The process went smoothly, and most engineers can tune the model within a few tries </p>
+				</ul>
+				<h5>2.5 Build pipeline for web hosting </h5>
+				<p>A complete pipeline was built using Python and embedded SQL. We tried to make the function and class and variable as straightforward as possible for later maintenance.</p>
+
+				<h4>3. Web hosting</h4>
+				<p>The final pipeline was passed to a web-developing team to host and build an interactive front end. We also work closely with them to help integrate, provide input, and test the system.</p>
+
+			</article>
+			<!-- /Article -->
+
+			<!-- Sidebar -->
+			<aside class="col-md-4 sidebar sidebar-left">
+
+				<div class="widget">
+					<h4>Background</h4>
+					<p>Baseline shift detection is a project that I worked on at Intel as an intern. Employing machine learning and other techniques for early error detection in a manufacturing line. As the project grows, I was put in charge of leading the machine learning section of the problem. </p>
+					<p>The following is my recommendation letter after the project <b><a href="https://tlminhkhoa.github.io/Recommendation%20letter/Intel%20Recommnedation%20Letter.pdf" target="_blank">here</a></b></p>
+				</div>
+				<div class="widget">
+					<!-- <h4>Background</h4>
+					<ul>
+						<li><a href="">Lorem ipsum </a>dolor sit amet.</li>
+						<li>Nostrum, dolores labore tempore error.</li>
+						<li>Qui esse impedit vitae repellat.</li>
+						<li>Aliquam, laborum corporis molestiae nihil.</li>
+						<li>Voluptate, labore non adipisci nihil!</li>
+					</ul> -->
+					<img src="./assets/images/intel.jpg" alt="Intel">
+				</div>
+				
+			</aside>			
+			
+			<p>&emsp; </p>
+			<p>&emsp; </p>
+			<p>&emsp; </p>
+
+			<p> &emsp;</p>
+			<p> &emsp; </p>
+			<aside class="col-md-4 sidebar sidebar-left">
+				<div class="widget">
+					<img src="./assets/images/MeAtIntel.png" alt="MeAtIntel">
+				</div>
+			</aside>
+
+			<p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p><p>&emsp; </p>
+			
+			<aside class="col-md-4 sidebar sidebar-left">
+				<div class="widget">
+					<p><img src="./assets/images/DT.png" alt="DT"></p>
+					<p>Example of Decision Tree</p>
+				</div>
+			</aside>
+		</div>
+	</div>	<!-- /container -->
+	
+</main>
+
+<footer id="footer" class="topspace">
+
+
+			<div class="col-md-3 widget">
+				<!-- <h3 class="widget-title">Text widget</h3> -->
+				<div class="widget-body">
+					<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, nihil natus explicabo ipsum quia iste aliquid repellat eveniet velit ipsa sunt libero sed aperiam id soluta officia asperiores adipisci maxime!</p> -->
+					<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, nihil natus explicabo ipsum quia iste aliquid repellat eveniet velit ipsa sunt libero sed aperiam id soluta officia asperiores adipisci maxime!</p> -->
+				</div>
+			</div>
+
+			<div class="col-md-3 widget">
+				<!-- <h3 class="widget-title">Form widget</h3> -->
+				<div class="widget-body">
+					<!-- <p>+84 907183848<br>
+						<a href="mailto:#">khoasimon99@gmail.com</a><br>
+						<br>
+						Toronto, Ontario, Canada.
+					</p>	 -->
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 widget">
+						<h3 class="widget-title">Contact</h3>
+						<div class="widget-body">
+							<p>+84 907183848<br>
+								<a href="mailto:#">khoasimon99@gmail.com</a><br>
+								<br>
+								Toronto, Ontario, Canada
+							</p>	
+						</div>
+					</div>
+		
+					<div class="col-md-3 widget">
+						<h3 class="widget-title">Follow me</h3>
+						<div class="widget-body">
+							<p class="follow-me-icons">
+								<a href=""><i class="fa fa-twitter fa-2"></i></a>
+								<a href=""><i class="fa fa-dribbble fa-2"></i></a>
+								<a href=""><i class="fa fa-github fa-2"></i></a>
+								<a href=""><i class="fa fa-facebook fa-2"></i></a>
+							</p>
+						</div>
+					</div>
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p>Toronto, Ontario, Canada. </p>
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						<!-- Copyright &copy; 2014, Your awesome name here<br>  -->
+						Khoa Tran<br>
+						<!-- Design: <a href="http://www.gettemplate.com" rel="designer">Initio by GetTemplate</a>  -->
+					</p>
+				</div>
+			</div>
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
+
+
+
+<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="assets/js/template.js"></script>
+</body>
+</html>
